@@ -8,5 +8,11 @@ namespace Abonos.Controllers
         {
             return View();
         }
+
+        public IActionResult Abono(int id)
+        {
+
+            return View(id);
+        }
     }
 }
