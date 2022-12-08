@@ -1,0 +1,93 @@
+﻿@using Abonos.Models;
+@model Principal;
+@{
+    Layout = "_Layout";
+}
+
+<div class="app-main__inner">
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="pe-7s-diamond icon-gradient bg-mean-fruit"></i>
+                </div>
+                <div>
+                    Pagos:
+                    <div class="page-title-subheading">
+                        En este modulo pueden aplicar pagos o abonar a una compra con saldo pendiente.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tabs-animation">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <a href="/" class="btn btn-info text-light">
+                            <span class="fa fa-chevron-left mr-3"></span>
+                            Volver al inicio
+                        </a>
+                    </div>
+                </div>
+                <div class="row my-5">
+                    <div class="col-12 col-md-4">
+                        <strong>Numero de compra:</strong>
+                        <span>@Model.IdCompra</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <strong>Precio:</strong>
+                        <span>@Model.Precio</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <strong>Saldo:</strong>
+                        <span>@Model.Saldo</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <strong>Estado:</strong>
+                        <span class="badge badge-danger text-light">@Model.Estado</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <strong>Descripcion:</strong>
+                        <span>@Model.Descripcion</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        @using (Html.BeginForm("Abonar", "Abono", FormMethod.Post))
+                        {
+                            <input type="hidden" value="@Model.IdCompra" name="IdCompra" />
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input onkeyup="validateAmount(this, @Model.Saldo);" min="0" max="@Model.Saldo" type="number" name="Monto" class="form-control" aria-label="Cantidad">
+                                <div class="input-group-prepend">
+                                    <input id="btnSend" class="btn btn-outline-info d-none" type="submit" value="Abonar" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const validateAmount = (e, saldo) => {
+            let btnSend = document.getElementById("btnSend");
+           e.value = saldo < parseInt(e.value) ? saldo: e.value;
+           if(e.value != "0" && e.value){
+               btnSend.classList.remove('d-none');
+               btnSend.classList.add('d-block');
+           }else{
+               btnSend.classList.remove('d-block');
+               btnSend.classList.add('d-none');
+           }
+        };
+    </script>
+}

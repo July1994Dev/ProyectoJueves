@@ -1,18 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Abonos.Repositorio;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Abonos.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly AbonoRepositorio AbonoRepositorio;
+        private readonly PrincipalRepositorio PrincipalRepositorio;
+        public HomeController(AbonoRepositorio pAbonoRepositorio, PrincipalRepositorio pPrincipalRepositorio)
         {
-            return View();
+            AbonoRepositorio = pAbonoRepositorio;
+            PrincipalRepositorio = pPrincipalRepositorio;
         }
 
-        public IActionResult Abono(int id)
+        public IActionResult Index()
         {
-
-            return View(id);
+            var model = PrincipalRepositorio.GetAllComprasPendientes();
+            return View(model);
         }
     }
 }
